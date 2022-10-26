@@ -1,6 +1,4 @@
 import numpy.random as npr
-
-
 class NoisyDeviceDecorator:
     def __init__(self, measuring_device, initial_bias, noise_covariance, bias_drift_covariance):
         self.measuring_device = measuring_device

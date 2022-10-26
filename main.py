@@ -7,8 +7,7 @@ import model
 from referencevectorgauge import ReferenceVectorGauge
 from noisydevice import NoisyDeviceDecorator
 import gyro
-import kalman3 as kalman
-
+import RMEKF as kalman
 
 def quatToEuler(q):
     euler = []
@@ -35,11 +34,9 @@ def quatListToEulerArrays(qs):
 
     return euler
 
-
 def eulerError(estimate, truth):
     return np.minimum(np.minimum(np.abs(estimate - truth), np.abs(2 * math.pi + estimate - truth)),
                       np.abs(-2 * math.pi + estimate - truth))
-
 
 def eulerArraysToErrorArrays(estimate, truth):
     errors = []
@@ -47,10 +44,8 @@ def eulerArraysToErrorArrays(estimate, truth):
         errors.append(eulerError(estimate[i], truth[i]))
     return errors
 
-
 def quatListToErrorArrays(estimate, truth):
     return eulerArraysToErrorArrays(quatListToEulerArrays(estimate), quatListToEulerArrays(truth))
-
 
 def rmse_euler(estimate, truth):
     def rmse(vec1, vec2):
@@ -59,7 +54,6 @@ def rmse_euler(estimate, truth):
     return [rmse(estimate[0], truth[0]),
             rmse(estimate[1], truth[1]),
             rmse(estimate[2], truth[2])]
-
 
 if __name__ == '__main__':
     np.random.seed(0)
